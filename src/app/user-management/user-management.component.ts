@@ -1,6 +1,7 @@
 import { Component, OnInit, DebugElement } from '@angular/core';
 import { CoreHttpService } from '../core/services/coreHttpServices/core-http.service';
-import { State, Districts, BlockDataModel, Roles } from '../models/common.model';
+import { State, Districts, BlockDataModel, Roles, registerModel } from '../models/common.model';
+import { NgForm } from '@angular/forms';
 declare var $: any;
 @Component({
   selector: 'app-user-management',
@@ -8,120 +9,26 @@ declare var $: any;
   styleUrls: ['./user-management.component.css']
 })
 export class UserManagementComponent implements OnInit {
+  public registerPayload: registerModel = new registerModel();
 public stateList: State[] = [];
-  public selectedStateId!: any;
-  public districtList: Districts[] = [];
-  public selecteddistrictId!: number;
+  public districtList: any[] = [];
   public blockList: BlockDataModel[] = [];
   public roleList: Roles[] = [];
   public userList: any  = [];
+  public facilityData: any = [];
+  public isHideFacility: boolean = false;
+  public facility: string = '';
+  public subfacility: string = '';
   constructor(private coreHttp: CoreHttpService ) {
-    this.userList = [
-      {
-      "name": "jitendra",
-      "gmail": "gangwarjitu392@gmail.com",
-      "mobileNumber": "9301840199",
-      "role": {
-          "roleId": 2,
-          "roleName": "DISTRICT"
-      },
-      "districtResponse": {
-          "districtId": 7,
-          "districtName": "Mayurbhanj",
-          "districtCode": 7,
-          "mddsCode": 365
-      },
-      "stateResponse": {
-          "stateId": 21,
-          "stateName": "ODISHA"
-      }
-  },
-  {
-      "name": "jitendra",
-      "gmail": "gangwar392@gmail.com",
-      "mobileNumber": "9301840190",
-      "role": {
-          "roleId": 1,
-          "roleName": "CHO"
-      },
-      "districtResponse": {
-          "districtId": 7,
-          "districtName": "Mayurbhanj",
-          "districtCode": 7,
-          "mddsCode": 365
-      },
-      "stateResponse": {
-          "stateId": 21,
-          "stateName": "ODISHA"
-      },
-      "blockResponse": {
-          "healthBlockId": 9,
-          "healthBlockCode": 366,
-          "healthBlockName": "BANGRIPOSI",
-          "districtId": 7,
-          "talukaId": 121,
-          "mddsCode": 3489
-      },
-      "healthFacilityResponse": {
-          "healthFacilityId": 1,
-          "healthFacilityCode": 1260,
-          "talukaId": 105
-      }
-  },
-  {
-      "name": "jitendra",
-      "gmail": "gangwar1213392@gmail.com",
-      "mobileNumber": "9301840191",
-      "role": {
-          "roleId": 4,
-          "roleName": "BLOCK"
-      },
-      "districtResponse": {
-          "districtId": 7,
-          "districtName": "Mayurbhanj",
-          "districtCode": 7,
-          "mddsCode": 365
-      },
-      "stateResponse": {
-          "stateId": 21,
-          "stateName": "ODISHA"
-      },
-      "blockResponse": {
-          "healthBlockId": 9,
-          "healthBlockCode": 366,
-          "healthBlockName": "BANGRIPOSI",
-          "districtId": 7,
-          "talukaId": 121,
-          "mddsCode": 3489
-      }
-  }
-];
-// this.roleList = [
-//   {
-//       "roleId": 4,
-//       "roleName": "BLOCK"
-//   },
-//   {
-//       "roleId": 1,
-//       "roleName": "CHO"
-//   },
-//   {
-//       "roleId": 2,
-//       "roleName": "DISTRICT"
-//   },
-//   {
-//       "roleId": 3,
-//       "roleName": "STATE"
-//   }
-// ]
+
+
    }
 
    ngAfterViewInit(){
-    $('#userTable').DataTable();
+    this.getUserListDetails();
    }
 
   ngOnInit(): void {
-    this.getUserListDetails();
     this.getRoleList();
     this.getStateList();
   }
@@ -129,7 +36,8 @@ public stateList: State[] = [];
   /** Method to get user list */
   getUserListDetails() {
     this.coreHttp.get('user/getAllUsers').subscribe(res => {
-      console.log(res);
+      this.userList = res.response;
+      $('#userTable').DataTable();
     }, error=> {
       console.log(error)
     })
@@ -137,8 +45,8 @@ public stateList: State[] = [];
 
   /** Method to get state list */
   getStateList() {
-    this.coreHttp.get('endpoint').subscribe(response => {
-      this.stateList = response;
+    this.coreHttp.get('states').subscribe(response => {
+      this.stateList = response.response;
     }, error => {
       console.log(error);
     })
@@ -146,25 +54,54 @@ public stateList: State[] = [];
 
   /** Method to get selected state */
   getSelectedStateId() {
-    this.coreHttp.get(`endpoint/${this.selectedStateId}`).subscribe(response => {
+    this.coreHttp.get(`district/${this.registerPayload.stateId}`).subscribe(response => {
       this.districtList = response.response.districts;
     }, error=> {
       console.log(error);
     })
   }
 
+  /** Method to get selected role */
+  getSelectedRole() {
+    if(Number(this.registerPayload.roleId) != 1) {
+      this.isHideFacility = false;
+    } else {
+      this.isHideFacility = true;
+    }
+  }
+
   /** Method to get select district */
   getSelecteddistrictList() {
-    // this.districtList.find(ele => ele.districtId === this.selecteddistrictId).blockData
+    let data = this.districtList.find(ele => ele.districtId === Number(this.registerPayload.districtId));
+    if(data.hasOwnProperty('blockData')) {
+      this.blockList = data.blockData;
+    } else {
+      this.blockList = [];
+    }
+
+    if(data.hasOwnProperty('facilityData')) {
+        this.facilityData = data.facilityData;
+    } else {
+      this.facilityData = [];
+    }
   }
 
   /** Method to get role list */
   getRoleList(){
-    this.coreHttp.get('endpoint').subscribe(res => {
-      console.log(res);
-      this.roleList = res;
+    this.coreHttp.get('roles').subscribe(res => {
+      this.roleList = res.response;
     }, error => {
       console.log(error)
+    })
+  }
+
+  /** Method for register User */
+  onSubmit(ngForm: NgForm) {
+    this.coreHttp.post('user/create', this.registerPayload).subscribe(res => {
+     this.getUserListDetails();
+      $('#registerModal').modal('toggle');
+    }, error=> {
+      console.log(error);
     })
   }
 }

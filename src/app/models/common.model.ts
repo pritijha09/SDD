@@ -1,6 +1,6 @@
 export class State {
-  public name : string | undefined;
-  public id!: number;
+  public stateName : string | undefined;
+  public stateId!: number;
 }
 
 export class Districts {
@@ -37,6 +37,23 @@ export class FacilityDataModel {
 export class Roles {
   roleId!: number;
   roleName!: string;
+}
+
+export class registerModel {
+  name!: string;
+  roleId!: string;
+  email!: string;
+  districtId!: string;
+  stateId!: string;
+  mobileNumber!: string;
+  password!: string;
+  blockId!: string;
+}
+
+export class Login {
+  username: string | undefined;
+  password: string | undefined;
+
 }
 
 

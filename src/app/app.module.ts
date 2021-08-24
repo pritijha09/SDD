@@ -10,11 +10,13 @@ import { LoaderInterceptor } from './core/interceptors/loader.interceptor';
 import { HttpHeaderInterceptorService } from './core/interceptors/http-header.interceptor';
 import { HttpErrorInterceptor } from './core/interceptors/http-error.interceptor';
 import { FormsModule } from '@angular/forms';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    UserManagementComponent
+    UserManagementComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
