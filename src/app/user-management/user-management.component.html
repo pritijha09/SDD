@@ -138,7 +138,7 @@
               <div class="col-md-6">
                   <div class="mb-3">
                       <label for="exampleFormControlInput1" class="form-label">State</label>
-                      <select [(ngModel)]="selectedStateId" class="form-select" (change)="getSelectedStateId()">
+                      <select name="state" [(ngModel)]="selectedStateId" class="form-select" (change)="getSelectedStateId()">
                           <option selected>Select</option>
                           <option value="21">ODISHA</option>
                           <option [value]="list.id" *ngFor="let list of stateList">{{list.name}}</option>
@@ -158,7 +158,7 @@
               <div class="col-md-6">
                   <div class="mb-3">
                       <label for="exampleFormControlInput1" class="form-label">District</label>
-                      <select [(ngModel)]="selecteddistrictId" class="form-select" (change)="getSelecteddistrictList()">
+                      <select name="district" [(ngModel)]="selecteddistrictId" class="form-select" (change)="getSelecteddistrictList()">
                           <option selected>Select</option>
                           <option [value]="list.districtId" *ngFor="let list of districtList">{{list.districtName}}</option>
                         </select>
@@ -167,7 +167,7 @@
               <div class="col-md-6">
                   <div class="mb-3">
                       <label for="exampleFormControlInput1" class="form-label">Block</label>
-                      <select [(ngModel)]="selecteddistrictId" class="form-select">
+                      <select name="block" [(ngModel)]="selecteddistrictId" class="form-select">
                           <option selected>Select</option>
                           <option [value]="list.healthBlockCode" *ngFor="let list of blockList">{{list.healthBlockName}}</option>
                         </select>
