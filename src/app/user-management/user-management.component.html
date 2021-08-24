@@ -1,0 +1,231 @@
+<div class="wrapper clearfix">
+  <div class="sidebar p-15">
+      <div class="row">
+          <div class="col-12">
+              <h5>Select Hierarchy</h5>
+          </div>
+          <div class="col-12">
+              <div class="mb-2">
+                  <label for="exampleFormControlInput1" class="form-label">State</label>
+                  <select class="form-select">
+                      <option selected>Select</option>
+                    </select>
+              </div>
+          </div>
+          <div class="col-12">
+              <div class="mb-2">
+                  <label for="exampleFormControlInput1" class="form-label">District</label>
+                  <select class="form-select">
+                      <option selected>Select</option>
+                    </select>
+              </div>
+          </div>
+          <div class="col-12">
+              <div class="mb-2">
+                  <label for="exampleFormControlInput1" class="form-label">Block</label>
+                  <select class="form-select">
+                      <option selected>Select</option>
+                    </select>
+              </div>
+          </div>
+          <div class="col-12">
+              <div class="mb-2">
+                  <label for="exampleFormControlInput1" class="form-label">Facility Type</label>
+                  <select class="form-select">
+                      <option selected>Select</option>
+                    </select>
+              </div>
+          </div>
+          <div class="col-12">
+              <div class="mb-2">
+                  <label for="exampleFormControlInput1" class="form-label">Facility</label>
+                  <select class="form-select">
+                      <option selected>Select</option>
+                    </select>
+              </div>
+          </div>
+          <div class="col-12">
+              <div class="mb-2">
+                  <label for="exampleFormControlInput1" class="form-label">Financial Year</label>
+                  <select class="form-select">
+                      <option selected>Select</option>
+                  </select>
+              </div>
+          </div>
+          <div class="col-12 d-grid">
+              <button type="button" class="btn btn-primary btn-block">Submit</button>
+          </div>
+      </div>
+  </div>
+  <div class="main">
+      <header class="clearfix">
+          <div class="logo pull-left">
+              <img src="assets/images/emblem.png" />
+          </div>
+          <div class="logo pull-right">
+              <img src="assets/images/emblem.png" />
+          </div>
+          <div class="text-center headerText">
+              National Health Mission
+              <small>Decision Support System</small>
+          </div>
+
+      </header>
+      <nav>
+          <ul>
+              <li><a href="#">Dashboard</a></li>
+              <li><a href="#">User Management</a></li>
+              <li><a href="#">Reports</a></li>
+          </ul>
+      </nav>
+
+      <div class="mainContent">
+          <div class="row">
+              <div class="col-12">
+                  <div class="card">
+                      <div class="card-body">
+                          <h5 class="card-title head clearfix">User Management
+                              <button type="button" class="btn btn-primary pull-right btn-sm">Download Excel</button>
+                              <button type="button" class="btn btn-primary pull-right btn-sm m-r-5" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
+                          </h5>
+
+                          <div class="row p-t-10">
+                              <div class="col-12">
+                                  <table class="table table-bordered table-striped table-hover" id="userTable">
+                                      <thead>
+                                          <tr>
+                                              <th>Name</th>
+                                              <th>Role</th>
+                                              <th>Contact</th>
+                                              <th>Email</th>
+                                              <th>Status</th>
+                                              <th>Action</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                          <tr *ngFor="let list of userList">
+                                              <td>{{list.name}}</td>
+                                              <td>{{list.role.roleName}}</td>
+                                              <td>{{list.mobileNumber}}</td>
+                                              <td>{{list.gmail}}</td>
+                                              <td>Active</td>
+                                              <td><button type="button" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button></td>
+                                          </tr>
+
+                                      </tbody>
+                                  </table>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">User Registration</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form>
+      <div class="modal-body">
+          <div class="row">
+              <div class="col-md-6">
+                  <div class="mb-3">
+                      <label for="exampleFormControlInput1" class="form-label">State</label>
+                      <select [(ngModel)]="selectedStateId" class="form-select" (change)="getSelectedStateId()">
+                          <option selected>Select</option>
+                          <option value="21">ODISHA</option>
+                          <option [value]="list.id" *ngFor="let list of stateList">{{list.name}}</option>
+                        </select>
+                    </div>
+              </div>
+              <div class="col-md-6">
+                  <div class="mb-3">
+                      <label for="exampleFormControlInput1" class="form-label">Role</label>
+                      <select class="form-select">
+                          <option selected>Select</option>
+                          <option [value]="list.roleId" *ngFor="let list of roleList">{{list.roleName}}</option>
+                        </select>
+                    </div>
+              </div>
+
+              <div class="col-md-6">
+                  <div class="mb-3">
+                      <label for="exampleFormControlInput1" class="form-label">District</label>
+                      <select [(ngModel)]="selecteddistrictId" class="form-select" (change)="getSelecteddistrictList()">
+                          <option selected>Select</option>
+                          <option [value]="list.districtId" *ngFor="let list of districtList">{{list.districtName}}</option>
+                        </select>
+                    </div>
+              </div>
+              <div class="col-md-6">
+                  <div class="mb-3">
+                      <label for="exampleFormControlInput1" class="form-label">Block</label>
+                      <select [(ngModel)]="selecteddistrictId" class="form-select">
+                          <option selected>Select</option>
+                          <option [value]="list.healthBlockCode" *ngFor="let list of blockList">{{list.healthBlockName}}</option>
+                        </select>
+                    </div>
+              </div>
+              <div class="col-md-6">
+                  <div class="mb-3">
+                      <label for="exampleFormControlInput1" class="form-label">Facility Type</label>
+                      <input type="email" class="form-control" />
+                    </div>
+              </div>
+              <div class="col-md-6">
+                  <div class="mb-3">
+                      <label for="exampleFormControlInput1" class="form-label">Facility</label>
+                      <input type="email" class="form-control" />
+                    </div>
+              </div>
+              <div class="col-md-6">
+                  <div class="mb-3">
+                      <label for="exampleFormControlInput1" class="form-label">Sub Facility</label>
+                      <input type="email" class="form-control" />
+                    </div>
+              </div>
+              <div class="col-md-6">
+                  <div class="mb-3">
+                      <label for="exampleFormControlInput1" class="form-label">Name</label>
+                      <input type="email" id="userName" class="form-control" required minlength="3"/>
+                      <div class="error">
+                          Please enter correct name.
+                      </div>
+                    </div>
+              </div>
+              <div class="col-md-6">
+                  <div class="mb-3">
+                      <label for="exampleFormControlInput1" class="form-label">Email</label>
+                      <input type="email" id="userMail" class="form-control" required/>
+                      <div class="error">
+                          Please enter correct email id.
+                      </div>
+                    </div>
+              </div>
+              <div class="col-md-6">
+                  <div class="mb-3">
+                      <label for="exampleFormControlInput1" class="form-label">Mobile</label>
+                      <input type="email" id="userMobile" class="form-control" required minlength="10" maxlength="10"/>
+                      <div class="error">
+                          Please enter correct mobile
+                      </div>
+                    </div>
+              </div>
+
+          </div>
+      </div>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+      <button type="button" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+  </div>
+  </div>
+</div>
