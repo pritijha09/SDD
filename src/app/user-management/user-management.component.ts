@@ -96,24 +96,24 @@ public stateList: State[] = [];
       }
   }
 ];
-this.roleList = [
-  {
-      "roleId": 4,
-      "roleName": "BLOCK"
-  },
-  {
-      "roleId": 1,
-      "roleName": "CHO"
-  },
-  {
-      "roleId": 2,
-      "roleName": "DISTRICT"
-  },
-  {
-      "roleId": 3,
-      "roleName": "STATE"
-  }
-]
+// this.roleList = [
+//   {
+//       "roleId": 4,
+//       "roleName": "BLOCK"
+//   },
+//   {
+//       "roleId": 1,
+//       "roleName": "CHO"
+//   },
+//   {
+//       "roleId": 2,
+//       "roleName": "DISTRICT"
+//   },
+//   {
+//       "roleId": 3,
+//       "roleName": "STATE"
+//   }
+// ]
    }
 
    ngAfterViewInit(){
@@ -123,7 +123,7 @@ this.roleList = [
   ngOnInit(): void {
     this.getUserListDetails();
     this.getRoleList();
-  //  this.getStateList();
+    this.getStateList();
   }
 
   /** Method to get user list */
