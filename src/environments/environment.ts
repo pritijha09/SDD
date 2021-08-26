@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiBaseURL: 'http://7bd3-2402-e280-2203-295-208c-b806-4d55-478.ngrok.io/'
+  apiBaseURL: 'http://ip-184-168-125-91.ip.secureserver.net:9000/'
 };
 
 /*

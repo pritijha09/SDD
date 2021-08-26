@@ -2,6 +2,7 @@ import { Component, OnInit, DebugElement } from '@angular/core';
 import { CoreHttpService } from '../core/services/coreHttpServices/core-http.service';
 import { State, Districts, BlockDataModel, Roles, registerModel } from '../models/common.model';
 import { NgForm } from '@angular/forms';
+import { NotificationService } from '../core/services/notification.service';
 declare var $: any;
 @Component({
   selector: 'app-user-management',
@@ -19,7 +20,7 @@ public stateList: State[] = [];
   public isHideFacility: boolean = false;
   public facility: string = '';
   public subfacility: string = '';
-  constructor(private coreHttp: CoreHttpService ) {
+  constructor(private coreHttp: CoreHttpService, private notifyService : NotificationService ) {
 
 
    }
@@ -40,6 +41,7 @@ public stateList: State[] = [];
       $('#userTable').DataTable();
     }, error=> {
       console.log(error)
+      this.notifyService.showError(error.message)
     })
   }
 
@@ -49,6 +51,7 @@ public stateList: State[] = [];
       this.stateList = response.response;
     }, error => {
       console.log(error);
+      this.notifyService.showError(error.message)
     })
   }
 
@@ -58,6 +61,7 @@ public stateList: State[] = [];
       this.districtList = response.response.districts;
     }, error=> {
       console.log(error);
+      this.notifyService.showError(error.message)
     })
   }
 
@@ -92,6 +96,7 @@ public stateList: State[] = [];
       this.roleList = res.response;
     }, error => {
       console.log(error)
+      this.notifyService.showError(error.message)
     })
   }
 
@@ -102,6 +107,7 @@ public stateList: State[] = [];
       $('#registerModal').modal('toggle');
     }, error=> {
       console.log(error);
+      this.notifyService.showError(error.message)
     })
   }
 }

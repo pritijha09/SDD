@@ -11,6 +11,8 @@ import { HttpHeaderInterceptorService } from './core/interceptors/http-header.in
 import { HttpErrorInterceptor } from './core/interceptors/http-error.interceptor';
 import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { LoginComponent } from './login/login.component';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
+    ToastrModule.forRoot(),
     CoreModule,
     FormsModule,
     HttpClientModule
