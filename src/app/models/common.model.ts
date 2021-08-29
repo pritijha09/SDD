@@ -8,8 +8,6 @@ export class Districts {
   districtName: string | undefined;
   districtCode: number | undefined;
   mddsCode: number | undefined;
-  blockData: BlockDataModel[] | undefined;
-  facilityData: FacilityDataModel[] | undefined
 }
 
 export class BlockDataModel {
@@ -41,19 +39,29 @@ export class Roles {
 
 export class registerModel {
   name!: string;
-  roleId!: string;
+  roleId!: number;
   email!: string;
-  districtId!: string;
-  stateId!: string;
+  districtCode!: number;
+  facilityTypeId!: number;
+  facilityCode!: number;
+  subFacilityCode!: number;
+  stateId!: number;
   mobileNumber!: string;
   password!: string;
-  blockId!: string;
+  blockCode!: number;
 }
 
 export class Login {
   username: string | undefined;
   password: string | undefined;
+}
 
+export class FilterModel {
+  stateId!: string;
+  districtId!: string;
+  blockId!: string;
+  facilityTypeId!: string;
+  facilityId!: string;
 }
 
 

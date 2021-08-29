@@ -20,7 +20,6 @@ public loginPayload: Login = new Login();
   onSubmit() {
     this.coreHttp.post('user/login', this.loginPayload).subscribe(res => {
       if(res.status === 200) {
-        this.notifyService.showError("Something is wrong")
         localStorage.setItem('token', res.response.token);
         this. route. navigate(['/user-management']);
       }

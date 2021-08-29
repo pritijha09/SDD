@@ -7,43 +7,49 @@
           <div class="col-12">
               <div class="mb-2">
                   <label for="exampleFormControlInput1" class="form-label">State</label>
-                  <select class="form-select">
+                  <select name="filterstate" [(ngModel)]="filterData.stateId" placeholeder="State" class="form-select" (change)="getSelectedStateIdFilter()">
                       <option selected>Select</option>
+                      <option [value]="list.stateId" *ngFor="let list of stateList">{{list.stateName}}</option>
                     </select>
               </div>
           </div>
           <div class="col-12">
               <div class="mb-2">
                   <label for="exampleFormControlInput1" class="form-label">District</label>
-                  <select class="form-select">
+                  <select name="filterdistrict" [disabled]="!filterData.stateId" [(ngModel)]="filterData.districtId" class="form-select" (change)="getSelecteddistrictListFilter()">
                       <option selected>Select</option>
+                      <option [value]="list.districtId" *ngFor="let list of districtListFilter">{{list.districtName}}</option>
                     </select>
               </div>
           </div>
           <div class="col-12">
               <div class="mb-2">
                   <label for="exampleFormControlInput1" class="form-label">Block</label>
-                  <select class="form-select">
+                  <select name="filterblock" [disabled]="!filterData.districtId" [(ngModel)]="filterData.blockId" class="form-select">
                       <option selected>Select</option>
-                    </select>
-              </div>
-          </div>
-          <div class="col-12">
-              <div class="mb-2">
-                  <label for="exampleFormControlInput1" class="form-label">Facility Type</label>
-                  <select class="form-select">
-                      <option selected>Select</option>
+                      <option [value]="list.healthBlockId" *ngFor="let list of blockListFilter">{{list.healthBlockName}}</option>
                     </select>
               </div>
           </div>
           <div class="col-12">
               <div class="mb-2">
                   <label for="exampleFormControlInput1" class="form-label">Facility</label>
-                  <select class="form-select">
+                  <select [disabled]="facilityDataFilter.length==0" name="filterfacilitytype" [(ngModel)]="filterData.facilityId" class="form-select">
                       <option selected>Select</option>
+                      <option [value]="list.healthFacilityName" *ngFor="let list of facilityDataFilter">{{list.healthFacilityName}}</option>
                     </select>
               </div>
           </div>
+          <div class="col-12">
+              <div class="mb-2">
+                  <label for="exampleFormControlInput1" class="form-label">Facility Type</label>
+                  <select [disabled]="facilityTypeDataFilter.length==0" name="filterfacilitytype" [(ngModel)]="filterData.facilityTypeId" class="form-select">
+                      <option selected>Select</option>
+                      <option [value]="list.facilityTypeId" *ngFor="let list of facilityTypeDataFilter">{{list.facilityTypeName}}</option>
+                    </select>
+              </div>
+          </div>
+
           <div class="col-12">
               <div class="mb-2">
                   <label for="exampleFormControlInput1" class="form-label">Financial Year</label>
@@ -137,15 +143,6 @@
           <div class="row">
               <div class="col-md-6">
                   <div class="mb-3">
-                      <label for="exampleFormControlInput1" class="form-label">State</label>
-                      <select name="state" placeholeder="State" [(ngModel)]="registerPayload.stateId" class="form-select" (change)="getSelectedStateId()">
-                          <option selected>Select</option>
-                          <option [value]="list.stateId" *ngFor="let list of stateList">{{list.stateName}}</option>
-                        </select>
-                    </div>
-              </div>
-              <div class="col-md-6">
-                  <div class="mb-3">
                       <label for="exampleFormControlInput1" class="form-label">Role</label>
                       <select name="role" [(ngModel)]="registerPayload.roleId" class="form-select" (change)="getSelectedRole()">
                           <option selected>Select</option>
@@ -153,44 +150,62 @@
                         </select>
                     </div>
               </div>
+              <div class="col-md-6">
+                  <div class="mb-3">
+                      <label for="exampleFormControlInput1" class="form-label">State</label>
+                      <select [disabled]="!registerPayload.roleId" name="state" placeholeder="State" [(ngModel)]="registerPayload.stateId" class="form-select" (change)="getSelectedStateId()">
+                          <option selected>Select</option>
+                          <option [value]="list.stateId" *ngFor="let list of stateList">{{list.stateName}}</option>
+                        </select>
+                    </div>
+              </div>
+
 
               <div class="col-md-6">
                   <div class="mb-3">
                       <label for="exampleFormControlInput1" class="form-label">District</label>
-                      <select name="district" [(ngModel)]="registerPayload.districtId" class="form-select" (change)="getSelecteddistrictList()">
+                      <select [disabled]="!registerPayload.stateId" name="district" [(ngModel)]="registerPayload.districtCode" class="form-select" (change)="getSelecteddistrictList()">
                           <option selected>Select</option>
-                          <option [value]="list.districtId" *ngFor="let list of districtList">{{list.districtName}}</option>
+                          <option [value]="list.districtCode" *ngFor="let list of districtList">{{list.districtName}}</option>
                         </select>
                     </div>
               </div>
               <div class="col-md-6">
                   <div class="mb-3">
                       <label for="exampleFormControlInput1" class="form-label">Block</label>
-                      <select name="block" [(ngModel)]="registerPayload.blockId" class="form-select">
+                      <select name="block" [disabled]="!registerPayload.districtCode" [(ngModel)]="registerPayload.blockCode" class="form-select" (change)="getSelectedBlockList()">
                           <option selected>Select</option>
-                          <option [value]="list.healthBlockId" *ngFor="let list of blockList">{{list.healthBlockName}}</option>
+                          <option [value]="list.healthBlockCode" *ngFor="let list of blockList">{{list.healthBlockName}}</option>
                         </select>
                     </div>
               </div>
               <div class="col-md-6" *ngIf="isHideFacility">
                   <div class="mb-3">
                       <label for="exampleFormControlInput1" class="form-label">Facility Type</label>
-                      <select class="form-select">
+                      <select [disabled]="facilityTypeData.length==0" name="facilitytype" [(ngModel)]="registerPayload.facilityTypeId" class="form-select"  (change)="getSelectedFacilityTypeList()">
                           <option selected>Select</option>
-                          <option [value]="list.healthFacilityTypeData.facilityTypeId" *ngFor="let list of facilityData">{{list.healthFacilityTypeData.facilityTypeName}}</option>
+                          <option [value]="list.facilityTypeId" *ngFor="let list of facilityTypeData">{{list.facilityTypeName}}</option>
                         </select>
                     </div>
               </div>
               <div class="col-md-6" *ngIf="isHideFacility">
                   <div class="mb-3">
                       <label for="exampleFormControlInput1" class="form-label">Facility</label>
-                      <input type="text" class="form-control" name="facility" [(ngModel)]="facility" />
-                    </div>
+                      <select [disabled]="facilityData.length==0" name="facility" [(ngModel)]="registerPayload.facilityCode" class="form-select" (change)="getSelectedFacilityList()">
+                          <option selected>Select</option>
+                          <option [value]="list.healthFacilityCode" *ngFor="let list of facilityData">{{list.healthFacilityName}}</option>
+                        </select>
+                      </div>
               </div>
+
+
               <div class="col-md-6" *ngIf="isHideFacility">
                   <div class="mb-3">
                       <label for="exampleFormControlInput1" class="form-label">Sub Facility</label>
-                      <input type="email" class="form-control" name="facility" [(ngModel)]="subfacility"/>
+                        <select [disabled]="subfacilityData.length==0" name="subfacility" [(ngModel)]="registerPayload.subFacilityCode" class="form-select">
+                          <option selected>Select</option>
+                          <option [value]="list.healthSubFacilityCode" *ngFor="let list of subfacilityData">{{list.healthFacilityCenterName}}</option>
+                        </select>
                     </div>
               </div>
               <div class="col-md-6">
