@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, forkJoin } from 'rxjs';
+import { Observable} from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -31,7 +31,7 @@ export class CoreHttpService {
    post(enpoint: string, data: any): Observable<any> {
      //  let headers = new HttpHeaders();
      //  headers = headers.set('authorization', authorization).set('UserID',  '1');
-     return this.httpClient.post(`${this.apiBaseURL}${enpoint}`, data);
+     return this.httpClient.post(`${this.apiBaseURL}${enpoint}`, data, { observe: "response"});
    }
 
 }

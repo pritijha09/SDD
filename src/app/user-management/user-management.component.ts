@@ -3,6 +3,7 @@ import { CoreHttpService } from '../core/services/coreHttpServices/core-http.ser
 import { State, Districts, BlockDataModel, Roles, registerModel, FilterModel } from '../models/common.model';
 import { NgForm } from '@angular/forms';
 import { NotificationService } from '../core/services/notification.service';
+import { Router } from '@angular/router';
 declare var $: any;
 @Component({
   selector: 'app-user-management',
@@ -28,7 +29,7 @@ public stateList: State[] = [];
   public facility: string = '';
   public subfacility: string = '';
 
-  constructor(private coreHttp: CoreHttpService, private notifyService : NotificationService ) {
+  constructor(private coreHttp: CoreHttpService,  private route:Router, private notifyService : NotificationService ) {
 
 
    }
@@ -141,12 +142,23 @@ public stateList: State[] = [];
     })
   }
 
+  /** Method to open register popup */
+  openRegisterModel() {
+    this.registerPayload = new registerModel();
+    $('#registerModal').modal('toggle');
+  }
+
   /** Method for register User */
   onSubmit(ngForm: NgForm) {
     this.coreHttp.post('user/create', this.registerPayload).subscribe(res => {
-      ngForm.reset();
-     this.getUserListDetails();
-      $('#registerModal').modal('toggle');
+      if(res.status == 200) {
+        ngForm.reset();
+        this.getUserListDetails();
+         $('#registerModal').modal('toggle');
+      } else {
+        this.notifyService.showInfo(res.message);
+      }
+
     }, error=> {
       this.notifyService.showError(error.message)
     })
@@ -181,5 +193,11 @@ public stateList: State[] = [];
       } else {
         this.facilityTypeDataFilter = [];
       }
+    }
+
+    /** Method to logout user */
+    logOut() {
+      localStorage.clear();
+      this.route.navigate(['/login']);
     }
 }
